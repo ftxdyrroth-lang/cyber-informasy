@@ -2,202 +2,65 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚠️ CORE-SYNC VAULT v43.0 [AUDIO-SYNC] ⚠️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CORE-SYNC v4.0 [FULL_DB_LOCKED]</title>
     <style>
-        body { background: #000; color: #ff3333; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; cursor: crosshair; }
-        #bg-video { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; filter: brightness(0.2); object-fit: cover; }
-        #header-title { position:fixed; top:15px; left:15px; font-size:14px; font-weight:bold; letter-spacing:1px; text-shadow: 0 0 5px red; pointer-events: none; z-index: 1000; }
-        #menu-btn { position: fixed; top: 15px; right: 15px; cursor: pointer; border: 1px solid red; padding: 10px; background: #000; z-index: 9999; font-size: 12px; }
-        #dropdown { display: none; position: fixed; top: 60px; right: 15px; background: #000; border: 1px solid red; width: 200px; padding: 10px; z-index: 9999; max-height: 70vh; overflow-y: auto; }
-        .region { color: white; cursor: pointer; border-bottom: 1px solid #330000; margin: 8px 0 4px 0; font-size: 14px; font-weight: bold; }
-        .case-item { padding: 5px 10px; cursor: pointer; color: #ff5555; font-size: 12px; }
-        .case-item:hover { color: white; background: #220000; }
-
-        #status-container { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; align-items: flex-end; z-index: 1000; }
-        #log-console { 
-            width: 150px; height: 55px; 
-            background: rgba(0,0,0,0.8); border: 1px solid #330000; 
-            font-size: 8.5px; color: #00ff00; 
-            overflow: hidden; padding: 4px; 
-            display: flex; flex-direction: column; 
-            justify-content: flex-end; 
-        }
-
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99999; backdrop-filter: blur(3px); }
-        .modal-content { background:#050505; margin: 15% auto; padding: 20px; border: 1px solid red; width: 85%; max-width: 500px; color: #fff; max-height: 60vh; overflow-y: auto; box-shadow: 0 0 15px red; }
-        .modal-content h2 { margin-top: 0; border-bottom: 1px dashed red; padding-bottom: 5px; font-size: 16px; }
-        .modal-content p { font-size: 13px; line-height: 1.5; color: #ccc; }
-        .close-btn { background: red; color: white; border: none; padding: 8px; width: 100%; cursor: pointer; font-family: monospace; font-weight: bold; margin-top: 10px; }
-        .close-btn:hover { background: white; color: red; }
-
-        /* CREDIT */
-        #credits { 
-            position: fixed; 
-            bottom: 8px; 
-            right: 15px; 
-            font-size: 9px; 
-            color: #ff3333; 
-            text-shadow: 0 0 5px red;
-            z-index: 1000; 
-            letter-spacing: 1px; 
-        }
-
-        /* LAYAR START */
-        #start-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(30, 0, 0, 0.8);
-            z-index: 99999;
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column; color: #ff6666; text-align: center;
-            cursor: pointer; transition: opacity 1s;
-        }
-        #start-overlay h1 { font-size: 42px; letter-spacing: 4px; text-shadow: 0 0 20px red; margin-bottom: 20px; }
-        #start-overlay p { font-size: 19px; color: #ff9999; text-shadow: 0 0 10px red; animation: blink 1.5s infinite; }
-        @keyframes blink { 50% { opacity: 0.6; } }
+        body { background: #000; color: red; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; cursor: crosshair; overscroll-behavior: none; touch-action: none; }
+        .decor-dot { color: #500; font-size: 10px; margin-top: 5px; letter-spacing: 5px; }
+        .code-rain { position: absolute; color: #00ff00; font-size: 10px; opacity: 0.2; pointer-events: none; z-index: 900; animation: fall 5s linear infinite; }
+        @keyframes fall { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+        #bg-video { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; filter: brightness(0.15); object-fit: cover; }
+        #header-container { position: fixed; top: 25px; left: 25px; z-index: 999; }
+        #header { font-size: 16px; font-weight: 900; text-shadow: 0 0 10px red; text-transform: uppercase; }
+        #sub-header { font-size: 9px; color: red; letter-spacing: 2px; margin-top: 2px; opacity: 0.7; }
+        #line-decor { width: 150px; height: 1px; background: red; margin-top: 5px; box-shadow: 0 0 5px red; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        #menu-btn { position: fixed; top: 25px; right: 25px; border: 1px solid red; padding: 10px; cursor: pointer; z-index: 9999; }
+        #hint-box { position: fixed; top: 75px; right: 25px; border: 1px solid #fff; padding: 10px; color: #fff; font-size: 12px; z-index: 9998; background: rgba(255,0,0,0.2); letter-spacing: 1px; }
+        #credits { position: fixed; bottom: 30px; right: 15px; font-size: 9px; color: red; text-shadow: 0 0 5px red; z-index: 9999; pointer-events: none; }
+        #anime-char { position: fixed; bottom: 45px; right: 20px; font-size: 20px; z-index: 9999; filter: drop-shadow(0 0 5px red); pointer-events: none; }
+        #log { position: fixed; bottom: 25px; left: 25px; font-size: 9px; color: #00ff00; z-index: 999; }
+        #cpu-meter { position: fixed; bottom: 15px; left: 25px; font-size: 9px; color: yellow; z-index: 999; }
+        #dropdown { display: none; position: fixed; top: 115px; right: 25px; background: rgba(0,0,0,0.9); border: 1px solid red; width: 280px; max-height: 50vh; overflow-y: auto; padding: 10px; z-index: 9999; }
+        .reg { color: #fff; border-bottom: 1px solid red; padding: 5px; font-size: 13px; cursor: pointer; }
+        .item { padding: 7px; cursor: pointer; color: #ff5555; font-size: 11px; }
+        .item:hover { color: #fff; background: #300; }
+        #start-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 99999; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; }
+        .cont { background: #050505; margin: 8% auto; padding: 25px; border: 1px solid red; width: 80%; max-height: 65vh; overflow-y: auto; color: #fff; white-space: pre-line; }
     </style>
 </head>
 <body>
-    <video autoplay muted loop id="bg-video" playsinline><source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4"></video>
+<video autoplay muted loop id="bg-video" playsinline><source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4"></video>
+<audio id="audio" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+<div id="start-overlay" onclick="start()"><h1>CORE-SYNC VAULT v4.0</h1><p>>> TAP TO INITIALIZE SYSTEM <<</p></div>
+<div id="header-container"><div id="header">⚡ CORE-SYNC v4.0</div><div id="sub-header">SECURE_ENCRYPTED_ACCESS</div><div id="line-decor"></div><div class="decor-dot">... ... ...</div></div>
+<div id="menu-btn" onclick="toggle('dropdown')">⋮ ARCHIVE</div>
+<div id="hint-box">» KLIK TOMBOL ARCHIVE DI KANAN ATAS UNTUK MEMBUKA DATA</div>
+<div id="anime-char">( ˃̶͈̀ ꇴ ˂̶͈́)</div>
+<div id="credits">CORE-MACHINE : Fatahh🚀</div>
+<div id="log">> SYSTEM INITIALIZED...</div>
+<div id="cpu-meter">> CPU LOAD: 0%</div>
+<div id="code-container"></div>
+<div id="dropdown">
+    <div class="reg" onclick="toggle('sub1')">1. INDONESIA</div><div id="sub1" style="display:none">
+    <div class="item" onclick="openM('MUNIR')">» MUNIR SAID THALIB</div><div class="item" onclick="openM('SUMANTO')">» SUMANTO KANIBAL</div><div class="item" onclick="openM('TRISAKTI')">» TRAGEDI TRISAKTI</div><div class="item" onclick="openM('MARSINAH')">» AKTIVIS MARSINAH</div><div class="item" onclick="openM('RYAN')">» RYAN JOMBANG</div><div class="item" onclick="openM('SIANIDA')">» KOPI SIANIDA</div><div class="item" onclick="openM('BALI')">» BOM BALI 2002</div><div class="item" onclick="openM('DUKUN')">» DUKUN BANYUWANGI</div><div class="item" onclick="openM('VINA')">» VINA CIREBON</div><div class="item" onclick="openM('G30S')">» G30S/PKI</div><div class="item" onclick="openM('PETRUS')">» OPERASI PETRUS</div><div class="item" onclick="openM('WIJI')">» WIJI THUKUL</div></div>
+    <div class="reg" onclick="toggle('sub2')">2. USA</div><div id="sub2" style="display:none">
+    <div class="item" onclick="openM('ZODIAC')">» ZODIAC KILLER</div><div class="item" onclick="openM('DAHMER')">» JEFFREY DAHMER</div><div class="item" onclick="openM('BUNDY')">» TED BUNDY</div><div class="item" onclick="openM('DAHLIA')">» BLACK DAHLIA</div><div class="item" onclick="openM('GACY')">» JOHN WAYNE GACY</div><div class="item" onclick="openM('RIDGWAY')">» GREEN RIVER KILLER</div><div class="item" onclick="openM('RAMIREZ')">» RICHARD RAMIREZ</div></div>
+    <div class="reg" onclick="toggle('sub3')">3. MEKSIKO</div><div id="sub3" style="display:none">
+    <div class="item" onclick="openM('JUAREZ')">» FEMISIDA JUAREZ</div><div class="item" onclick="openM('POZOLERO')">» EL POZOLERO</div><div class="item" onclick="openM('GUZMAN')">» KARTEL SINALOA</div><div class="item" onclick="openM('AYOTZINAPA')">» TRAGEDI AYOTZINAPA</div><div class="item" onclick="openM('ZEZETA')">» KARTEL LOS ZETAS</div></div>
+    <div class="reg" onclick="toggle('sub4')">4. JEPANG</div><div id="sub4" style="display:none">
+    <div class="item" onclick="openM('AKIHABARA')">» PEMBANTAIAN AKIHABARA</div><div class="item" onclick="openM('JUNKO')">» KASUS JUNKO FURUTA</div><div class="item" onclick="openM('SAGAMIHARA')">» PENIKAMAN SAGAMIHARA</div></div>
+    <div class="reg" onclick="toggle('sub5')">5. RUSIA</div><div id="sub5" style="display:none">
+    <div class="item" onclick="openM('CHIKATILO')">» ANDREI CHIKATILO</div><div class="item" onclick="openM('BESLAN')">» PENYANDERAAN BESLAN</div><div class="item" onclick="openM('CHESSBOARD')">» CHESSBOARD KILLER</div></div>
+</div>
+<div id="modal" class="modal"><div class="cont"><h2 id="m-t" style="color:red"></h2><p id="m-b"></p><button style="width:100%;padding:10px;background:red;border:none;color:white;cursor:pointer" onclick="document.getElementById('modal').style.display='none'">CLOSE DOSSIER</button></div></div>
+<script>
+const db={MUNIR:{t:"MUNIR SAID THALIB",b:"KRONOLOGI: Aktivis HAM diracun arsenik dosis tinggi dalam penerbangan Garuda GA-974 menuju Amsterdam (2004).\n\nANALISIS: Racun dimasukkan ke dalam cangkir teh. Dalang utama diduga tokoh intelijen tinggi, namun kasus ini macet di tangan hukum."},SUMANTO:{t:"SUMANTO KANIBAL",b:"KRONOLOGI: Tahun 2003, Sumanto membongkar makam Mbah Rinah di Purbalingga.\n\nDETAIL: Jenazah dimutilasi dan dimakan pelaku untuk ritual kesaktian agar kebal hukum. Pelaku divonis 5 tahun penjara dan masuk RSJ."},TRISAKTI:{t:"TRAGEDI TRISAKTI",b:"KRONOLOGI: 12 Mei 1998, demonstrasi damai mahasiswa Trisakti berakhir tragis.\n\nINSIDEN: Aparat menembakkan peluru tajam secara acak ke kerumunan. 4 mahasiswa gugur di tempat, memicu kemarahan nasional yang meruntuhkan Orde Baru."},MARSINAH:{t:"AKTIVIS MARSINAH",b:"KRONOLOGI: 4 Mei 1993, aktivis buruh diculik pasca memimpin aksi mogok kerja.\n\nKONDISI: Ditemukan tewas di hutan dengan tubuh penuh luka setrum, robekan alat vital, dan memar hebat. Pembunuhnya tetap menjadi misteri negara."},RYAN:{t:"RYAN JOMBANG",b:"KRONOLOGI: 2008, penemuan 11 kerangka manusia terkubur di septic tank rumah orang tua pelaku.\n\nDETAIL: Korban dibunuh dengan modus hubungan sesama jenis yang berujung percekcokan berdarah. Divonis hukuman mati."},SIANIDA:{t:"KOPI SIANIDA",b:"KRONOLOGI: 6 Januari 2016, Mirna Salihin tewas seketika setelah menyeruput es kopi Vietnam di Kafe Olivier.\n\nBUKTI: Dosis sianida mematikan masuk ke lambung. Jessica Wongso dinyatakan bersalah dan divonis 20 tahun."},BALI:{t:"BOM BALI 2002",b:"KRONOLOGI: 12 Oktober 2002, dua bom meledak di Paddy's Bar dan Sari Club, Kuta.\n\nDAMPAK: 202 orang dari berbagai negara tewas terbakar. Serangan ini menandai sejarah terorisme paling hitam di tanah air."},DUKUN:{t:"DUKUN BANYUWANGI",b:"KRONOLOGI: 1998, operasi 'pembersihan' massal terhadap orang yang dituduh dukun santet di Jawa Timur.\n\nDETAIL: Ratusan orang dibantai, dipenggal, dan diarak kepalanya oleh massa yang terprovokasi isu politik sistematis."},VINA:{t:"VINA CIREBON",b:"KRONOLOGI: 2016, Vina dan Eky disergap geng motor di flyover Cirebon.\n\nDETAIL: Korban disiksa secara brutal, diperkosa bergilir, dan dibuang di jalanan. Kasus sempat ditutup sebelum kembali dibuka 2024."},G30S:{t:"G30S/PKI",b:"KRONOLOGI: 30 September 1965, penculikan paksa para jenderal Angkatan Darat.\n\nINSIDEN: Para korban dibawa ke Lubang Buaya, disiksa secara sadis sebelum akhirnya dibunuh. Peristiwa yang mengubah total arah politik Indonesia."},PETRUS:{t:"OPERASI PETRUS",b:"KRONOLOGI: 1983, gelombang penembakan misterius menyapu bersih residivis bertato.\n\nDETAIL: Mayat-mayat preman ditemukan setiap pagi di pinggir jalan dengan bekas luka tembak akurat. Operasi rahasia negara untuk 'ketertiban'."},WIJI:{t:"WIJI THUKUL",b:"KRONOLOGI: 1998, penyair rakyat yang vokal mengkritik rezim hilang diculik tanpa jejak.\n\nDETAIL: Diculik oleh tim khusus menjelang jatuhnya Suharto. Hingga saat ini, jejaknya hilang ditelan bumi, tanpa jasad."},ZODIAC:{t:"ZODIAC KILLER",b:"KRONOLOGI: 1968-1969, serangkaian pembunuhan berantai di California Utara.\n\nDETAIL: Pembunuh mengirim surat berdarah dan teka-teki kriptogram ke polisi/media. Identitas pelaku hingga kini masih menjadi misteri terbesar FBI."},DAHMER:{t:"JEFFREY DAHMER",b:"KRONOLOGI: 1978-1991, Milwaukee Cannibal membunuh 17 pria muda.\n\nDETAIL: Selain membunuh, pelaku memutilasi korban, menyimpan bagian tubuh di kulkas, hingga melakukan tindakan kanibalisme. Tewas dipukuli di penjara."},BUNDY:{t:"TED BUNDY",b:"KRONOLOGI: 1974-1978, psikopat karismatik yang membunuh 30+ wanita muda.\n\nDETAIL: Modus pura-pura cedera untuk menculik korban. Terkenal karena kecerdasannya memanipulasi hukum sebelum akhirnya dieksekusi mati."},DAHLIA:{t:"BLACK DAHLIA",b:"KRONOLOGI: 1947, Elizabeth Short ditemukan tewas dengan kondisi mengerikan.\n\nDETAIL: Tubuh dipotong dua tepat di pinggang, wajah dimutilasi membentuk 'senyuman Glasgow', darah terkuras habis. Kasus ini tak pernah terpecahkan."},GACY:{t:"JOHN WAYNE GACY",b:"KRONOLOGI: 1972-1978, 'Killer Clown' yang mengubur 33 remaja pria di bawah lantai rumahnya.\n\nDETAIL: Menggunakan trik badut untuk mendekati korban sebelum disiksa. Divonis mati dengan suntikan mematikan."},RIDGWAY:{t:"GREEN RIVER KILLER",b:"KRONOLOGI: 1980-1990-an, pembunuhan berantai paling produktif di AS.\n\nDETAIL: Membunuh 49+ wanita, membuang mayat di Sungai Green. Dikenal karena kecerdasan manipulasi polisi selama puluhan tahun."},RAMIREZ:{t:"RICHARD RAMIREZ",b:"KRONOLOGI: 1984-1985, 'Night Stalker' yang meneror Los Angeles.\n\nDETAIL: Masuk ke rumah korban saat malam, menyiksa, dan membunuh secara random dengan sadis. Tewas di penjara akibat kanker."},JUAREZ:{t:"FEMISIDA JUAREZ",b:"KRONOLOGI: 1993-sekarang, ribuan wanita pekerja pabrik di Ciudad Juarez hilang.\n\nDETAIL: Korban ditemukan di gurun dengan tanda-tanda siksaan seksual ekstrem. Kasus ini melibatkan kartel dan impunitas pemerintah."},POZOLERO:{t:"EL POZOLERO",b:"KRONOLOGI: 2000-an, 'Sang Pembuat Bubur' bekerja untuk kartel Tijuana.\n\nDETAIL: Tugasnya melarutkan 300+ mayat musuh kartel ke dalam drum berisi asam kaustik hingga hancur menjadi bubur. Tertangkap dan dihukum."},GUZMAN:{t:"KARTEL SINALOA",b:"KRONOLOGI: Dominasi brutal El Chapo.\n\nDETAIL: Perang narkoba yang menewaskan puluhan ribu orang, penyuapan pejabat tinggi, dan pelarian penjara yang legendaris."},AYOTZINAPA:{t:"TRAGEDI AYOTZINAPA",b:"KRONOLOGI: 2014, 43 mahasiswa diculik oleh polisi yang bekerja sama dengan kartel.\n\nDETAIL: Dibakar di tempat pembuangan sampah hingga tak bersisa. Simbol korupsi dan impunitas di Meksiko."},ZEZETA:{t:"KARTEL LOS ZETAS",b:"KRONOLOGI: Kelompok paling kejam di Meksiko.\n\nDETAIL: Mantan tentara elit yang berubah jadi kartel. Dikenal karena video pemenggalan dan eksekusi massal sebagai alat intimidasi."},AKIHABARA:{t:"PEMBANTAIAN AKIHABARA",b:"KRONOLOGI: 8 Juni 2008, Tomohiro Kato menabrak kerumunan dengan truk dan menikam orang secara acak.\n\nDETAIL: 7 orang tewas, 10 luka-luka. Pelaku melakukan ini karena merasa terisolasi oleh masyarakat dan pekerjaannya."},JUNKO:{t:"KASUS JUNKO FURUTA",b:"KRONOLOGI: 1988, remaja wanita diculik, disekap, disiksa selama 44 hari oleh 4 pemuda.\n\nDETAIL: Salah satu kasus paling keji dalam sejarah Jepang. Korban disiksa hingga tidak bisa dikenali sebelum mayatnya disemen di drum."},SAGAMIHARA:{t:"PENIKAMAN SAGAMIHARA",b:"KRONOLOGI: 26 Juli 2016, Satoshi Uematsu membantai 19 orang difabel di pusat perawatan.\n\nDETAIL: Pelaku menganggap orang cacat tidak berguna bagi masyarakat. Serangan massa paling mematikan di Jepang pasca perang."},CHIKATILO:{t:"ANDREI CHIKATILO",b:"KRONOLOGI: 1978-1990, 'The Butcher of Rostov' membunuh 52 wanita dan anak-anak.\n\nDETAIL: Pelaku melakukan mutilasi dan kanibalisme. Dikenal karena kemampuannya lolos dari deteksi polisi selama lebih dari satu dekade."},BESLAN:{t:"PENYANDERAAN BESLAN",b:"KRONOLOGI: 1 September 2004, teroris menyandera 1.100+ orang di sebuah sekolah.\n\nDETAIL: Setelah 3 hari, terjadi baku tembak yang menewaskan 330+ orang, termasuk 186 anak-anak. Tragedi teror paling memilukan di Rusia."},CHESSBOARD:{t:"CHESSBOARD KILLER",b:"KRONOLOGI: Alexander Pichushkin mencoba membunuh 64 orang (sesuai jumlah kotak catur).\n\nDETAIL: Membunuh korban dengan vodka, lalu memukul kepala dengan palu. Ingin melampaui rekor Chikatilo."}};
+function start(){document.getElementById('audio').play();document.getElementById('start-overlay').style.display='none';setTimeout(()=>{document.getElementById('hint-box').style.display='none'},15000)}
+function toggle(id){let d=document.getElementById(id);d.style.display=(d.style.display=='block'?'none':'block')}
+function openM(id){document.getElementById('m-t').innerText=db[id].t;document.getElementById('m-b').innerText=db[id].b;document.getElementById('modal').style.display='block';document.getElementById('log').innerText='> ACCESSING FILE: '+db[id].t;}
+setInterval(()=>{let l=['> MONITORING...','> VAULT INTEGRITY 99%','> DATA STREAM STABLE','> ACCESS GRANTED'];document.getElementById('log').innerText=l[Math.floor(Math.random()*l.length)];document.getElementById('cpu-meter').innerText='> CPU LOAD: '+(Math.floor(Math.random()*40)+60)+'%';},3000);
+setInterval(()=>{let c=document.createElement('div');c.className='code-rain';c.innerText=Math.random().toString(36).substring(7);c.style.left=Math.random()*100+'%';c.style.animationDuration=(Math.random()*3+2)+'s';document.getElementById('code-container').appendChild(c);setTimeout(()=>c.remove(),5000)},800);
+</script></body></html>
     
-    <audio id="rain-audio" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="start-overlay" onclick="startSystem()">
-        <h1>CORE-SYNC VAULT v4.0</h1>
-        <p>Click Dimanapun Untuk Melanjutkan</p>
-    </div>
-
-    <div id="header-title">⚡ CORE-SYNC v4.0</div>
-    <div id="menu-btn" onclick="toggleMenu()">⋮ ARCHIVE</div>
-    
-    <div id="dropdown">
-        <div class="region" onclick="toggleSub('indo')">1. INDONESIA</div>
-        <div id="sub-indo" style="display:none;">
-            <div class="case-item" onclick="openModal('SUMANTO')">» SUMANTO KANIBAL</div>
-            <div class="case-item" onclick="openModal('MUNIR')">» PEMBUNUHAN MUNIR</div>
-            <div class="case-item" onclick="openModal('TRISAKTI')">» TRAGEDI TRISAKTI</div>
-            <div class="case-item" onclick="openModal('MARSINAH')">» AKTIVIS MARSINAH</div>
-            <div class="case-item" onclick="openModal('RYAN_JOMBANG')">» RYAN JOMBANG</div>
-            <div class="case-item" onclick="openModal('KOPI_SIANIDA')">» KOPI SIANIDA</div>
-            <div class="case-item" onclick="openModal('BALI_BOMBING')">» BOM BALI 2002</div>
-            <div class="case-item" onclick="openModal('BANYUWANGI')">» PEMBANTAIAN DUKUN BANYUWANGI</div>
-            <div class="case-item" onclick="openModal('VINA_CIREBON')">» VINA & EKY (Cirebon 2016)</div>
-        </div>
-        <div class="region" onclick="toggleSub('usa')">2. UNITED STATES</div>
-        <div id="sub-usa" style="display:none;">
-            <div class="case-item" onclick="openModal('ZODIAC')">» ZODIAC KILLER</div>
-            <div class="case-item" onclick="openModal('BLACK_DAHLIA')">» BLACK DAHLIA</div>
-            <div class="case-item" onclick="openModal('JONESTOWN')">» JONESTOWN MASSACRE</div>
-            <div class="case-item" onclick="openModal('TED_BUNDY')">» TED BUNDY</div>
-            <div class="case-item" onclick="openModal('JEFFREY_DAHMER')">» JEFFREY DAHMER</div>
-            <div class="case-item" onclick="openModal('ATTACKS_911')">» SERANGAN 9/11</div>
-        </div>
-        <div class="region" onclick="toggleSub('mex')">3. MEKSIKO</div>
-        <div id="sub-mex" style="display:none;">
-            <div class="case-item" onclick="openModal('JUAREZ')">» FEMISIDA JUAREZ</div>
-            <div class="case-item" onclick="openModal('AYOTZINAPA')">» 43 MAHASISWA IGUALA</div>
-            <div class="case-item" onclick="openModal('POZOLERO')">» EL POZOLERO</div>
-            <div class="case-item" onclick="openModal('KIKI_CAMARENA')">» KIKI CAMARENA (DEA)</div>
-            <div class="case-item" onclick="openModal('SAN_FERNANDO')">» SAN FERNANDO</div>
-            <div class="case-item" onclick="openModal('ALLENDE_MASSACRE')">» HOROR ALLENDE</div>
-        </div>
-    </div>
-
-    <div id="status-container">
-        <div id="log-console"></div>
-    </div>
-
-    <div id="credits">CORE-MACHINE : Fatahh🚀</div>
-
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <h2 id="m-title" style="color:red;"></h2>
-            <p id="m-body"></p>
-            <button class="close-btn" onclick="closeModal()">CLOSE SYSTEM</button>
-        </div>
-    </div>
-
-    <script>
-        let audioStarted = false;
-
-        function startSystem() {
-            if (!audioStarted) {
-                let audio = document.getElementById("rain-audio");
-                audio.play().catch(() => {});
-                audioStarted = true;
-            }
-            document.getElementById('start-overlay').style.opacity = '0';
-            setTimeout(() => document.getElementById('start-overlay').style.display = 'none', 1000);
-        }
-
-        window.onclick = function() {
-            if (!audioStarted) startSystem();
-        };
-
-        const db = {
-            'SUMANTO': { title: "IDN-01: SUMANTO (2003)", body: "Sumanto membongkar makam Mbah Rinah, memutilasi dan memakan dagingnya untuk ritual kesaktian. Divonis 5 tahun penjara." },
-            'MUNIR': { title: "IDN-02: MUNIR (2004)", body: "Aktivis HAM Munir diracun Arsenik dalam penerbangan ke Amsterdam. Kasus ini masih menyisakan misteri dalang utamanya." },
-            'TRISAKTI': { title: "IDN-03: TRISAKTI (1998)", body: "4 mahasiswa gugur ditembak peluru tajam oleh aparat saat demo reformasi di depan kampus Trisakti." },
-            'MARSINAH': { title: "IDN-04: MARSINAH (1993)", body: "Marsinah, aktivis buruh pabrik, diculik, disiksa secara brutal (disetrum & diperkosa), lalu dibunuh pada 4 Mei 1993 setelah memimpin demo menuntut kenaikan upah." },
-            'RYAN_JOMBANG': { title: "IDN-05: RYAN JOMBANG (2008)", body: "Ryan, remaja 17 tahun di Jombang, membunuh 11 anak kecil dan mengubur mereka di septic tank rumah orang tuanya. Divonis hukuman mati." },
-            'KOPI_SIANIDA': { title: "IDN-06: KOPI SIANIDA (2016)", body: "Jessica Kumala Wongso meracuni sahabatnya, Wayan Mirna Salihin, dengan sianida yang dimasukkan ke dalam kopi di Cafe Olivier." },
-            'BALI_BOMBING': { title: "IDN-07: BOM BALI 2002", body: "Pada 12 Oktober 2002, dua bom meledak di Kuta, Bali. Bom pertama di Paddy's Bar, bom kedua di Sari Club. Total 202 orang tewas." },
-            'BANYUWANGI': { title: "IDN-08: PEMBANTAIAN DUKUN BANYUWANGI (1998)", body: "Lebih dari 100 dukun santet dibantai massa secara sadis antara Juli-Oktober 1998." },
-            'VINA_CIREBON': { title: "IDN-09: VINA & EKY (2016)", body: "Vina dan Eky dibunuh secara brutal oleh geng motor di Cirebon. Kasus ini kembali viral setelah film biografinya." },
-
-            'ZODIAC': { title: "USA-01: ZODIAC KILLER (1968-1969)", body: "Pembunuh berantai di California Utara yang membunuh setidaknya 5 orang secara sadis. Mengirim surat dan kode sandi ke media. Identitasnya masih misteri hingga sekarang." },
-            'BLACK_DAHLIA': { title: "USA-02: BLACK DAHLIA (1947)", body: "Elizabeth Short (22) ditemukan tewas di lahan kosong Los Angeles. Tubuhnya dipotong menjadi dua bagian pinggang, wajah dimutilasi dengan senyuman Glasgow, dan darahnya dikuras habis." },
-            'JONESTOWN': { title: "USA-03: JONESTOWN MASSACRE (1978)", body: "Pemimpin sekte Jim Jones memerintahkan 918 pengikutnya (termasuk anak-anak) untuk minum minuman beracun sianida di Guyana." },
-            'TED_BUNDY': { title: "USA-04: TED BUNDY (1974-1978)", body: "Psikopat karismatik yang membunuh minimal 30 wanita muda. Modusnya pura-pura cedera untuk meminta tolong, lalu menculik, memperkosa, dan membunuh." },
-            'JEFFREY_DAHMER': { title: "USA-05: JEFFREY DAHMER (1978-1991)", body: "The Milwaukee Cannibal. Membunuh 17 pria muda, memutilasi, memakan, dan menyimpan bagian tubuh korbannya di kulkas." },
-            'ATTACKS_911': { title: "USA-06: SERANGAN 9/11 (2001)", body: "19 teroris Al-Qaeda membajak 4 pesawat. Dua menabrak World Trade Center, satu ke Pentagon. Total 2.977 orang tewas dalam satu hari." },
-
-            'JUAREZ': { title: "MEX-01: FEMISIDA JUAREZ (1993-sekarang)", body: "Lebih dari 2.000 wanita dibunuh di Ciudad Juarez sejak 1993. Banyak korban pekerja pabrik yang hilang lalu ditemukan di gurun dengan tanda penyiksaan." },
-            'AYOTZINAPA': { title: "MEX-02: 43 MAHASISWA IGUALA (2014)", body: "43 mahasiswa normalista diculik polisi di Iguala, lalu diserahkan ke kartel Guerreros Unidos. Mayat mereka dibakar massal di tempat pembuangan sampah." },
-            'POZOLERO': { title: "MEX-03: EL POZOLERO (2000-an)", body: "Santiago Meza Lopez, 'The Stew Maker', bekerja untuk kartel. Dia melarutkan ratusan mayat dalam drum berisi asam kaustik hingga menjadi bubur." },
-            'KIKI_CAMARENA': { title: "MEX-04: KIKI CAMARENA (1985)", body: "Agen DEA Enrique 'Kiki' Camarena disiksa selama 30 jam oleh kartel Guadalajara. Disetrum, dipukul, dan disuntik obat sebelum dibunuh." },
-            'SAN_FERNANDO': { title: "MEX-05: SAN FERNANDO MASSACRE (2010-2011)", body: "Los Zetas membunuh puluhan imigran (72 pada 2010, 193 pada 2011) di San Fernando karena menolak bergabung jadi pembunuh bayaran." },
-            'ALLENDE_MASSACRE': { title: "MEX-06: HOROR ALLENDE (2011)", body: "Kartel Los Zetas membantai lebih dari 300 warga sipil di Allende selama 3 hari sebagai balas dendam. Rumah-rumah dibakar, mayat dilenyapkan dengan asam." }
-        };
-
-        function toggleMenu() { document.getElementById('dropdown').style.display = (document.getElementById('dropdown').style.display == 'block' ? 'none' : 'block'); }
-        function toggleSub(id) { document.getElementById('sub-'+id).style.display = (document.getElementById('sub-'+id).style.display == 'block' ? 'none' : 'block'); }
-        function openModal(id) { 
-            document.getElementById('m-title').innerHTML = db[id].title; 
-            document.getElementById('m-body').innerHTML = db[id].body; 
-            document.getElementById('myModal').style.display = 'block'; 
-            toggleMenu(); 
-        }
-        function closeModal() { document.getElementById('myModal').style.display = 'none'; }
-        
-        let logLines = [];
-        setInterval(() => {
-            let logText = `> SEC_LOG_${Math.floor(Math.random() * 999)}: SYS_OK`;
-            logLines.push(logText);
-            if (logLines.length > 5) logLines.shift();
-            document.getElementById('log-console').innerHTML = logLines.join('<br>');
-        }, 1300);
-    </script>
-</body>
-    <style>
-        #hint-box {
-            position: fixed; top: 55px; right: 60px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px dashed red;
-            padding: 5px 10px;
-            color: white;
-            font-size: 10px;
-            pointer-events: none;
-            z-index: 9998;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
-    </style>
-    <div id="hint-box">« KLIK TITIK 3 UNTUK ARSIP</div>
-    <script>
-        setTimeout(() => { document.getElementById('hint-box').style.display = 'none'; }, 5000);
-    </script>
-
-</html>
