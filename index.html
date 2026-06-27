@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚠️ CORE-SYNC VAULT v43.0 [AUDIO-SYNC] ⚠️</title>
     <style>
-        /* CSS TETEP SAMA PERSIS - NO CHANGES */
         body { background: #000; color: #ff3333; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; cursor: crosshair; }
         #bg-video { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; filter: brightness(0.2); object-fit: cover; }
         #header-title { position:fixed; top:15px; left:15px; font-size:14px; font-weight:bold; letter-spacing:1px; text-shadow: 0 0 5px red; pointer-events: none; z-index: 1000; }
@@ -14,15 +13,48 @@
         .region { color: white; cursor: pointer; border-bottom: 1px solid #330000; margin: 8px 0 4px 0; font-size: 14px; font-weight: bold; }
         .case-item { padding: 5px 10px; cursor: pointer; color: #ff5555; font-size: 12px; }
         .case-item:hover { color: white; background: #220000; }
+
         #status-container { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; align-items: flex-end; z-index: 1000; }
-        #log-console { width: 150px; height: 60px; background: rgba(0,0,0,0.8); border: 1px solid #330000; font-size: 9px; color: #00ff00; overflow: hidden; padding: 5px; display: flex; flex-direction: column; justify-content: flex-end; }
-        #cpu-meter { margin-left: 10px; margin-bottom: 5px; font-size: 10px; border: 1px solid red; padding: 5px; background: rgba(0,0,0,0.8); }
+        #log-console { 
+            width: 150px; height: 55px; 
+            background: rgba(0,0,0,0.8); border: 1px solid #330000; 
+            font-size: 8.5px; color: #00ff00; 
+            overflow: hidden; padding: 4px; 
+            display: flex; flex-direction: column; 
+            justify-content: flex-end; 
+        }
+
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99999; backdrop-filter: blur(3px); }
         .modal-content { background:#050505; margin: 15% auto; padding: 20px; border: 1px solid red; width: 85%; max-width: 500px; color: #fff; max-height: 60vh; overflow-y: auto; box-shadow: 0 0 15px red; }
         .modal-content h2 { margin-top: 0; border-bottom: 1px dashed red; padding-bottom: 5px; font-size: 16px; }
         .modal-content p { font-size: 13px; line-height: 1.5; color: #ccc; }
         .close-btn { background: red; color: white; border: none; padding: 8px; width: 100%; cursor: pointer; font-family: monospace; font-weight: bold; margin-top: 10px; }
         .close-btn:hover { background: white; color: red; }
+
+        /* CREDIT */
+        #credits { 
+            position: fixed; 
+            bottom: 8px; 
+            right: 15px; 
+            font-size: 9px; 
+            color: #ff3333; 
+            text-shadow: 0 0 5px red;
+            z-index: 1000; 
+            letter-spacing: 1px; 
+        }
+
+        /* LAYAR START */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 0, 0, 0.8);
+            z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; color: #ff6666; text-align: center;
+            cursor: pointer; transition: opacity 1s;
+        }
+        #start-overlay h1 { font-size: 42px; letter-spacing: 4px; text-shadow: 0 0 20px red; margin-bottom: 20px; }
+        #start-overlay p { font-size: 19px; color: #ff9999; text-shadow: 0 0 10px red; animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.6; } }
     </style>
 </head>
 <body>
@@ -32,7 +64,12 @@
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="header-title">⚡ CORE-SYNC v43</div>
+    <div id="start-overlay" onclick="startSystem()">
+        <h1>CORE-SYNC VAULT v4.0</h1>
+        <p>Click Dimanapun Untuk Melanjutkan</p>
+    </div>
+
+    <div id="header-title">⚡ CORE-SYNC v4.0</div>
     <div id="menu-btn" onclick="toggleMenu()">⋮ ARCHIVE</div>
     
     <div id="dropdown">
@@ -44,6 +81,9 @@
             <div class="case-item" onclick="openModal('MARSINAH')">» AKTIVIS MARSINAH</div>
             <div class="case-item" onclick="openModal('RYAN_JOMBANG')">» RYAN JOMBANG</div>
             <div class="case-item" onclick="openModal('KOPI_SIANIDA')">» KOPI SIANIDA</div>
+            <div class="case-item" onclick="openModal('BALI_BOMBING')">» BOM BALI 2002</div>
+            <div class="case-item" onclick="openModal('BANYUWANGI')">» PEMBANTAIAN DUKUN BANYUWANGI</div>
+            <div class="case-item" onclick="openModal('VINA_CIREBON')">» VINA & EKY (Cirebon 2016)</div>
         </div>
         <div class="region" onclick="toggleSub('usa')">2. UNITED STATES</div>
         <div id="sub-usa" style="display:none;">
@@ -67,8 +107,9 @@
 
     <div id="status-container">
         <div id="log-console"></div>
-        <div id="cpu-meter">CPU: <span id="cpu">0</span>%</div>
     </div>
+
+    <div id="credits">CORE-MACHINE : Fatahh🚀</div>
 
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -79,49 +120,65 @@
     </div>
 
     <script>
-        // TRIGGER AUDIO SAAT KLIK AREA MANAPUN
-        window.onclick = function() {
-            let audio = document.getElementById("rain-audio");
-            if (audio.paused) {
-                audio.play();
+        let audioStarted = false;
+
+        function startSystem() {
+            if (!audioStarted) {
+                let audio = document.getElementById("rain-audio");
+                audio.play().catch(() => {});
+                audioStarted = true;
             }
+            document.getElementById('start-overlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('start-overlay').style.display = 'none', 1000);
+        }
+
+        window.onclick = function() {
+            if (!audioStarted) startSystem();
         };
 
-        // DATABASE TETEP SAMA
         const db = {
             'SUMANTO': { title: "IDN-01: SUMANTO (2003)", body: "Sumanto membongkar makam Mbah Rinah, memutilasi dan memakan dagingnya untuk ritual kesaktian. Divonis 5 tahun penjara." },
             'MUNIR': { title: "IDN-02: MUNIR (2004)", body: "Aktivis HAM Munir diracun Arsenik dalam penerbangan ke Amsterdam. Kasus ini masih menyisakan misteri dalang utamanya." },
             'TRISAKTI': { title: "IDN-03: TRISAKTI (1998)", body: "4 mahasiswa gugur ditembak peluru tajam oleh aparat saat demo reformasi di depan kampus Trisakti." },
-            'MARSINAH': { title: "IDN-04: MARSINAH (1993)", body: "Aktivis buruh yang disiksa brutal hingga tewas setelah vokal menuntut kenaikan upah. Pelakunya diduga dilindungi aparat." },
-            'RYAN_JOMBANG': { title: "IDN-05: RYAN JOMBANG (2008)", body: "Serial killer yang mengubur 11 korbannya di septic tank rumah orang tuanya. Divonis mati." },
-            'KOPI_SIANIDA': { title: "IDN-06: KOPI SIANIDA (2016)", body: "Wayan Mirna tewas usai minum kopi beracun Sianida yang dipesankan sahabatnya, Jessica. Kontroversial hingga kini." },
-            'ZODIAC': { title: "USA-01: ZODIAC KILLER", body: "Pembunuh berantai yang meneror California dengan surat berkode sandi. Identitas asli tak pernah terungkap." },
-            'BLACK_DAHLIA': { title: "USA-02: BLACK DAHLIA", body: "Elizabeth Short ditemukan tewas termutilasi dengan potongan tubuh rapi. Kasus unsolved paling sadis di LA." },
-            'JONESTOWN': { title: "USA-03: JONESTOWN", body: "Sekte Jim Jones memaksa 918 pengikutnya minum Sianida massal di hutan Guyana." },
-            'TED_BUNDY': { title: "USA-04: TED BUNDY", body: "Psikopat tampan yang menjebak 30+ wanita dengan pura-pura cedera. Dieksekusi 1989." },
-            'JEFFREY_DAHMER': { title: "USA-05: JEFFREY DAHMER", body: "Kanibal Milwaukee yang menyimpan potongan tubuh korbannya sebagai trofi." },
-            'ATTACKS_911': { title: "USA-06: SERANGAN 9/11", body: "Pembajakan pesawat teroris Al-Qaeda yang menabrak WTC dan Pentagon. 2.977 nyawa melayang." },
-            'JUAREZ': { title: "MEX-01: FEMISIDA JUAREZ", body: "Ribuan wanita pekerja pabrik hilang dan ditemukan tewas di gurun. Diduga kejahatan kartel." },
-            'AYOTZINAPA': { title: "MEX-02: 43 MAHASISWA", body: "43 mahasiswa diculik polisi korup dan dieksekusi kartel. Mayatnya dibakar massal." },
-            'POZOLERO': { title: "MEX-03: EL POZOLERO", body: "Pekerja kartel yang melenyapkan mayat dengan melarutkannya dalam cairan asam kaustik." },
-            'KIKI_CAMARENA': { title: "MEX-04: KIKI CAMARENA", body: "Agen DEA yang disiksa 30 jam oleh kartel karena membongkar ladang ganja raksasa." },
-            'SAN_FERNANDO': { title: "MEX-05: SAN FERNANDO", body: "72 imigran dieksekusi massal oleh Los Zetas karena menolak jadi pembunuh bayaran." },
-            'ALLENDE_MASSACRE': { title: "MEX-06: HOROR ALLENDE", body: "Genosida 300+ warga sipil dalam 3 hari oleh kartel akibat kebocoran informasi intelijen." }
+            'MARSINAH': { title: "IDN-04: MARSINAH (1993)", body: "Marsinah, aktivis buruh pabrik, diculik, disiksa secara brutal (disetrum & diperkosa), lalu dibunuh pada 4 Mei 1993 setelah memimpin demo menuntut kenaikan upah." },
+            'RYAN_JOMBANG': { title: "IDN-05: RYAN JOMBANG (2008)", body: "Ryan, remaja 17 tahun di Jombang, membunuh 11 anak kecil dan mengubur mereka di septic tank rumah orang tuanya. Divonis hukuman mati." },
+            'KOPI_SIANIDA': { title: "IDN-06: KOPI SIANIDA (2016)", body: "Jessica Kumala Wongso meracuni sahabatnya, Wayan Mirna Salihin, dengan sianida yang dimasukkan ke dalam kopi di Cafe Olivier." },
+            'BALI_BOMBING': { title: "IDN-07: BOM BALI 2002", body: "Pada 12 Oktober 2002, dua bom meledak di Kuta, Bali. Bom pertama di Paddy's Bar, bom kedua di Sari Club. Total 202 orang tewas." },
+            'BANYUWANGI': { title: "IDN-08: PEMBANTAIAN DUKUN BANYUWANGI (1998)", body: "Lebih dari 100 dukun santet dibantai massa secara sadis antara Juli-Oktober 1998." },
+            'VINA_CIREBON': { title: "IDN-09: VINA & EKY (2016)", body: "Vina dan Eky dibunuh secara brutal oleh geng motor di Cirebon. Kasus ini kembali viral setelah film biografinya." },
+
+            'ZODIAC': { title: "USA-01: ZODIAC KILLER (1968-1969)", body: "Pembunuh berantai di California Utara yang membunuh setidaknya 5 orang secara sadis. Mengirim surat dan kode sandi ke media. Identitasnya masih misteri hingga sekarang." },
+            'BLACK_DAHLIA': { title: "USA-02: BLACK DAHLIA (1947)", body: "Elizabeth Short (22) ditemukan tewas di lahan kosong Los Angeles. Tubuhnya dipotong menjadi dua bagian pinggang, wajah dimutilasi dengan senyuman Glasgow, dan darahnya dikuras habis." },
+            'JONESTOWN': { title: "USA-03: JONESTOWN MASSACRE (1978)", body: "Pemimpin sekte Jim Jones memerintahkan 918 pengikutnya (termasuk anak-anak) untuk minum minuman beracun sianida di Guyana." },
+            'TED_BUNDY': { title: "USA-04: TED BUNDY (1974-1978)", body: "Psikopat karismatik yang membunuh minimal 30 wanita muda. Modusnya pura-pura cedera untuk meminta tolong, lalu menculik, memperkosa, dan membunuh." },
+            'JEFFREY_DAHMER': { title: "USA-05: JEFFREY DAHMER (1978-1991)", body: "The Milwaukee Cannibal. Membunuh 17 pria muda, memutilasi, memakan, dan menyimpan bagian tubuh korbannya di kulkas." },
+            'ATTACKS_911': { title: "USA-06: SERANGAN 9/11 (2001)", body: "19 teroris Al-Qaeda membajak 4 pesawat. Dua menabrak World Trade Center, satu ke Pentagon. Total 2.977 orang tewas dalam satu hari." },
+
+            'JUAREZ': { title: "MEX-01: FEMISIDA JUAREZ (1993-sekarang)", body: "Lebih dari 2.000 wanita dibunuh di Ciudad Juarez sejak 1993. Banyak korban pekerja pabrik yang hilang lalu ditemukan di gurun dengan tanda penyiksaan." },
+            'AYOTZINAPA': { title: "MEX-02: 43 MAHASISWA IGUALA (2014)", body: "43 mahasiswa normalista diculik polisi di Iguala, lalu diserahkan ke kartel Guerreros Unidos. Mayat mereka dibakar massal di tempat pembuangan sampah." },
+            'POZOLERO': { title: "MEX-03: EL POZOLERO (2000-an)", body: "Santiago Meza Lopez, 'The Stew Maker', bekerja untuk kartel. Dia melarutkan ratusan mayat dalam drum berisi asam kaustik hingga menjadi bubur." },
+            'KIKI_CAMARENA': { title: "MEX-04: KIKI CAMARENA (1985)", body: "Agen DEA Enrique 'Kiki' Camarena disiksa selama 30 jam oleh kartel Guadalajara. Disetrum, dipukul, dan disuntik obat sebelum dibunuh." },
+            'SAN_FERNANDO': { title: "MEX-05: SAN FERNANDO MASSACRE (2010-2011)", body: "Los Zetas membunuh puluhan imigran (72 pada 2010, 193 pada 2011) di San Fernando karena menolak bergabung jadi pembunuh bayaran." },
+            'ALLENDE_MASSACRE': { title: "MEX-06: HOROR ALLENDE (2011)", body: "Kartel Los Zetas membantai lebih dari 300 warga sipil di Allende selama 3 hari sebagai balas dendam. Rumah-rumah dibakar, mayat dilenyapkan dengan asam." }
         };
 
         function toggleMenu() { document.getElementById('dropdown').style.display = (document.getElementById('dropdown').style.display == 'block' ? 'none' : 'block'); }
         function toggleSub(id) { document.getElementById('sub-'+id).style.display = (document.getElementById('sub-'+id).style.display == 'block' ? 'none' : 'block'); }
-        function openModal(id) { document.getElementById('m-title').innerHTML = db[id].title; document.getElementById('m-body').innerHTML = db[id].body; document.getElementById('myModal').style.display = 'block'; toggleMenu(); }
+        function openModal(id) { 
+            document.getElementById('m-title').innerHTML = db[id].title; 
+            document.getElementById('m-body').innerHTML = db[id].body; 
+            document.getElementById('myModal').style.display = 'block'; 
+            toggleMenu(); 
+        }
         function closeModal() { document.getElementById('myModal').style.display = 'none'; }
         
         let logLines = [];
         setInterval(() => {
-            document.getElementById('cpu').innerText = Math.floor(Math.random() * 80) + 5;
             let logText = `> SEC_LOG_${Math.floor(Math.random() * 999)}: SYS_OK`;
             logLines.push(logText);
             if (logLines.length > 5) logLines.shift();
             document.getElementById('log-console').innerHTML = logLines.join('<br>');
-        }, 1500);
+        }, 1300);
     </script>
 </body>
 </html>
