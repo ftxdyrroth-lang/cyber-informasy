@@ -63,4 +63,3 @@ function openM(id){document.getElementById('m-t').innerText=db[id].t;document.ge
 setInterval(()=>{let l=['> MONITORING...','> VAULT INTEGRITY 99%','> DATA STREAM STABLE','> ACCESS GRANTED'];document.getElementById('log').innerText=l[Math.floor(Math.random()*l.length)];document.getElementById('cpu-meter').innerText='> CPU LOAD: '+(Math.floor(Math.random()*40)+60)+'%';},3000);
 setInterval(()=>{let c=document.createElement('div');c.className='code-rain';c.innerText=Math.random().toString(36).substring(7);c.style.left=Math.random()*100+'%';c.style.animationDuration=(Math.random()*3+2)+'s';document.getElementById('code-container').appendChild(c);setTimeout(()=>c.remove(),5000)},800);
 </script></body></html>
-    
