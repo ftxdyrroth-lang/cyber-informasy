@@ -181,4 +181,23 @@
         }, 1300);
     </script>
 </body>
+        <style>
+        #hint-box {
+            position: fixed; top: 55px; right: 60px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px dashed red;
+            padding: 5px 10px;
+            color: white;
+            font-size: 10px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+    </style>
+    <div id="hint-box">« KLIK TITIK 3 UNTUK ARSIP</div>
+    <script>
+        setTimeout(() => { document.getElementById('hint-box').style.display = 'none'; }, 5000);
+    </script>
+    
 </html>
